@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마음을 담은 클래식 | KT</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --kt-red: #E3000F; --kt-red-dark: #B0000B;
+    --kt-red-soft: rgba(227,0,15,0.08); --kt-red-border: rgba(227,0,15,0.25);
+    --white: #FFFFFF; --off-white: #FAFAF8; --warm-gray: #F2EDE8;
+    --text-dark: #1A1A1A; --text-mid: #444; --text-light: #888;
+    --gold: #C8A96A; --gold-light: rgba(200,169,106,0.2);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: var(--off-white); color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
+
+  /* HERO */
+  .hero { background: var(--text-dark); position: relative; overflow: hidden; padding: 70px 24px 60px; text-align: center; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 110%, rgba(227,0,15,0.22) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 10%, rgba(200,169,106,0.10) 0%, transparent 60%); pointer-events: none; }
+  .staff-lines { position: absolute; top: 0; left: 0; right: 0; height: 100%; pointer-events: none; opacity: 0.04; }
+  .staff-lines span { display: block; height: 1px; background: white; margin: 18px 0; }
+  .kt-badge { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; color: var(--gold); border: 1px solid var(--gold-light); padding: 5px 16px; border-radius: 2px; margin-bottom: 28px; animation: fadeUp 0.8s ease both; }
+  .hero-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; letter-spacing: 0.06em; color: rgba(255,255,255,0.45); margin-bottom: 10px; animation: fadeUp 0.8s 0.1s ease both; }
+  .hero-title { font-family: 'Noto Serif KR', serif; font-size: clamp(28px, 7vw, 46px); font-weight: 600; color: var(--white); line-height: 1.3; margin-bottom: 6px; animation: fadeUp 0.8s 0.2s ease both; }
+  .hero-title em { display: block; font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: clamp(14px, 3.5vw, 20px); font-weight: 300; color: rgba(255,255,255,0.5); letter-spacing: 0.04em; margin-top: 4px; }
+  .red-bar { width: 40px; height: 3px; background: var(--kt-red); margin: 22px auto; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-meta { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; animation: fadeUp 0.8s 0.4s ease both; }
+  .hero-meta-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 300; }
+  .icon { width: 18px; height: 18px; opacity: 0.6; flex-shrink: 0; }
+
+  /* PROGRAM */
+  .program-wrap { background: var(--white); border-radius: 16px; margin: 32px auto; max-width: 700px; overflow: hidden; box-shadow: 0 2px 24px rgba(0,0,0,0.06); animation: fadeUp 0.9s 0.5s ease both; }
+  .block-header { background: var(--kt-red); padding: 18px 28px; display: flex; align-items: center; gap: 10px; }
+  .block-header h2 { font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 600; color: white; letter-spacing: 0.06em; }
+  .program-body { padding: 24px 24px; }
+  .performer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .performer-card { background: var(--warm-gray); border-radius: 10px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; }
+  .performer-card.full { grid-column: 1 / -1; background: linear-gradient(135deg, var(--kt-red-soft), var(--warm-gray)); border: 1px solid var(--kt-red-border); }
+  .role-badge { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; color: var(--kt-red); background: rgba(227,0,15,0.08); padding: 3px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+  .performer-name { font-family: 'Noto Serif KR', serif; font-size: 14px; font-weight: 400; color: var(--text-dark); line-height: 1.5; }
+
+  /* INFO */
+  .info-wrap { max-width: 700px; margin: 0 auto 24px; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; animation: fadeUp 0.9s 0.6s ease both; }
+  .info-card { background: var(--white); border-radius: 14px; padding: 20px; box-shadow: 0 2px 16px rgba(0,0,0,0.05); }
+  .info-card.full { grid-column: 1 / -1; }
+  .info-card-label { font-size: 10px; font-weight: 500; letter-spacing: 0.15em; color: var(--kt-red); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .info-card-label::before { content: ''; display: inline-block; width: 14px; height: 2px; background: var(--kt-red); border-radius: 1px; }
+  .info-card-value { font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 400; color: var(--text-dark); line-height: 1.6; }
+  .info-card-value small { display: block; font-family: 'Noto Sans KR', sans-serif; font-size: 12px; color: var(--text-light); font-weight: 300; margin-top: 4px; }
+  .notice-box { background: linear-gradient(135deg, #fff8f8, #fff); border-left: 3px solid var(--kt-red); border-radius: 0 10px 10px 0; padding: 14px 18px; font-size: 13px; color: var(--text-mid); line-height: 1.8; }
+  .notice-box strong { color: var(--kt-red); font-weight: 500; }
+
+  /* PARKING */
+  .parking-wrap { max-width: 700px; margin: 0 auto 40px; padding: 0 20px; animation: fadeUp 0.9s 0.7s ease both; }
+  .parking-card { background: var(--white); border-radius: 16px; overflow: hidden; box-shadow: 0 2px 24px rgba(0,0,0,0.06); }
+  .parking-dark-header { background: var(--text-dark); padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; }
+  .parking-dark-header h2 { font-family: 'Noto Serif KR', serif; font-size: 15px; font-weight: 600; color: white; letter-spacing: 0.06em; display: flex; align-items: center; gap: 8px; }
+  .parking-dark-header p { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .parking-body { padding: 28px; }
+  .parking-body > label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; color: var(--text-light); margin-bottom: 12px; }
+
+  /* 차량번호 2칸 입력 */
+  .plate-row { display: flex; gap: 10px; align-items: center; margin-bottom: 14px; }
+  .plate-field { flex: 1; }
+  .plate-field label { display: block; font-size: 10px; color: var(--text-light); letter-spacing: 0.08em; margin-bottom: 6px; }
+  .plate-input {
+    width: 100%; height: 54px;
+    border: 1.5px solid #E0DADA; border-radius: 10px;
+    padding: 0 16px;
+    font-family: 'Noto Sans KR', sans-serif; font-size: 20px; font-weight: 600;
+    letter-spacing: 0.14em; color: var(--text-dark);
+    background: var(--off-white); text-align: center;
+    transition: border-color 0.2s, background 0.2s;
+    text-transform: uppercase;
+  }
+  .plate-input:focus { outline: none; border-color: var(--kt-red); background: #fff8f8; }
+  .plate-input::placeholder { font-size: 14px; letter-spacing: 0.06em; color: #CCC; font-weight: 300; }
+  .plate-input:disabled { opacity: 0.45; background: #f5f5f5; }
+  .plate-divider { font-size: 22px; color: #CCC; font-weight: 300; padding-top: 18px; flex-shrink: 0; }
+
+  /* 버튼 행 */
+  .btn-row { display: flex; gap: 10px; }
+  .submit-btn {
+    flex: 1; height: 52px;
+    background: var(--kt-red); color: white; border: none; border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif; font-size: 14px; font-weight: 500;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+  }
+  .submit-btn:hover { background: var(--kt-red-dark); }
+  .submit-btn:active { transform: scale(0.97); }
+  .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  .list-btn {
+    height: 52px; padding: 0 20px;
+    background: var(--off-white); color: var(--text-mid);
+    border: 1.5px solid #E0DADA; border-radius: 10px;
+    font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; white-space: nowrap;
+    display: none; align-items: center; gap: 6px;
+  }
+  .list-btn.show { display: flex; }
+  .list-btn:hover { border-color: var(--kt-red); color: var(--kt-red); }
+
+  /* 완료 배너 */
+  .done-banner { display: none; margin-top: 16px; background: #f0faf0; border: 1px solid #b2dfb2; border-radius: 10px; padding: 14px 18px; font-size: 13px; color: #2e7d32; align-items: center; gap: 10px; }
+  .done-banner.show { display: flex; }
+
+  /* 목록 패널 */
+  .list-panel { display: none; margin-top: 24px; border-top: 1px solid #F0EDED; padding-top: 22px; }
+  .list-panel.show { display: block; }
+  .list-panel-title { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; color: var(--text-light); margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
+  .list-panel-title span { background: var(--kt-red); color: white; font-size: 10px; padding: 2px 8px; border-radius: 20px; letter-spacing: 0.04em; }
+
+  .plate-list-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: var(--warm-gray); border-radius: 8px; margin-bottom: 8px; }
+  .plate-list-item .pnum { font-size: 15px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-dark); }
+  .plate-list-item .ptime { font-size: 11px; color: var(--text-light); }
+  .list-empty { text-align: center; padding: 20px; font-size: 13px; color: var(--text-light); }
+  .list-loading { text-align: center; padding: 20px; font-size: 13px; color: var(--text-light); }
+
+  /* TOAST */
+  .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1A1A1A; color: white; padding: 12px 24px; border-radius: 30px; font-size: 13px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); z-index: 999; display: flex; align-items: center; gap: 8px; pointer-events: none; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  footer { text-align: center; padding: 30px 20px 40px; color: var(--text-light); font-size: 11px; letter-spacing: 0.08em; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 480px) {
+    .performer-grid { grid-template-columns: 1fr; }
+    .info-wrap { grid-template-columns: 1fr; }
+    .info-card.full { grid-column: 1; }
+    .hero { padding: 50px 20px 44px; }
+    .parking-body { padding: 20px; }
+    .program-body { padding: 20px; }
+    .plate-input { font-size: 17px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="staff-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="kt-badge">KT와 함께하는 예술의전당</div>
+  <p class="hero-sub">2025. 05. 22 FRI &nbsp;|&nbsp; 11:00 – 13:00</p>
+  <h1 class="hero-title">마음을 담은 클래식<em>A Classic with Heart</em></h1>
+  <div class="red-bar"></div>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      서울 서초구 예술의전당 콘서트홀
+    </div>
+    <div class="hero-meta-item">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      오전 11:00 시작
+    </div>
+  </div>
+</section>
+
+<!-- 출연진 -->
+<div class="program-wrap" style="padding:0 20px;">
+  <div style="margin:0 -20px;">
+    <div class="block-header">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9 18V5l12-2v13M9 18a3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3zm12-2a3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3z"/></svg>
+      <h2>출연진</h2>
+    </div>
+  </div>
+  <div class="program-body">
+    <div class="performer-grid">
+      <div class="performer-card"><span class="role-badge">지휘</span><span class="performer-name">서 진</span></div>
+      <div class="performer-card"><span class="role-badge">피아노</span><span class="performer-name">조지현</span></div>
+      <div class="performer-card"><span class="role-badge">바이올린</span><span class="performer-name">강보라 · 전재성</span></div>
+      <div class="performer-card"><span class="role-badge">콘서트 가이드</span><span class="performer-name">김용배</span></div>
+      <div class="performer-card full"><span class="role-badge">연주</span><span class="performer-name">KT 심포니오케스트라</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 안내 정보 -->
+<div class="info-wrap">
+  <div class="info-card">
+    <div class="info-card-label">일시</div>
+    <div class="info-card-value">2025년 5월 22일 금요일<small>오전 11:00 – 오후 1:00</small></div>
+  </div>
+  <div class="info-card">
+    <div class="info-card-label">장소</div>
+    <div class="info-card-value">예술의전당 콘서트홀<small>서울 서초구 남부순환로 2406</small></div>
+  </div>
+  <div class="info-card full">
+    <div class="info-card-label">입장 안내</div>
+    <div class="notice-box">
+      <strong>7번 창구</strong>에서 <strong>티켓 또는 봉투</strong>를 제시해 주시면<br>
+      프로그램북을 수령하실 수 있습니다.<br>
+      <small style="color:#aaa;font-size:11px;margin-top:6px;display:block;">공연 시작 30분 전부터 입장이 가능합니다.</small>
+    </div>
+  </div>
+</div>
+
+<!-- 주차 등록 -->
+<div class="parking-wrap">
+  <div class="parking-card">
+    <div class="parking-dark-header">
+      <h2>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>
+        주차 차량 등록
+      </h2>
+      <p>VIP 전용 무료 주차 지원</p>
+    </div>
+    <div class="parking-body">
+      <label>차량번호를 입력해 주세요</label>
+
+      <!-- 2칸 입력 -->
+      <div class="plate-row">
+        <div class="plate-field">
+          <label>앞번호 (지역·한글)</label>
+          <input type="text" class="plate-input" id="plateFront" placeholder="11가" maxlength="5" autocomplete="off">
+        </div>
+        <div class="plate-divider">—</div>
+        <div class="plate-field">
+          <label>뒷번호 (숫자)</label>
+          <input type="text" class="plate-input" id="plateBack" placeholder="1234" maxlength="4" inputmode="numeric" autocomplete="off">
+        </div>
+      </div>
+
+      <!-- 버튼 행 -->
+      <div class="btn-row">
+        <button class="submit-btn" id="submitBtn" onclick="registerPlate()">등록하기</button>
+        <button class="list-btn" id="listBtn" onclick="toggleList()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          주차등록 완료
+        </button>
+      </div>
+
+      <!-- 완료 배너 -->
+      <div class="done-banner" id="doneBanner">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+        차량번호가 등록되었습니다. 감사합니다 🎻
+      </div>
+
+      <!-- 목록 패널 -->
+      <div class="list-panel" id="listPanel">
+        <div class="list-panel-title">
+          등록된 차량 목록
+          <span id="listCount">0</span>
+        </div>
+        <div id="listBody">
+          <div class="list-loading">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>ⓒ 2025 KT Corp. 기업문화팀</footer>
+
+<div class="toast" id="toast">
+  <div class="toast-dot" id="toastDot"></div>
+  <span id="toastMsg"></span>
+</div>
+
+<script>
+  const API = 'https://script.google.com/macros/s/AKfycbw_UUtF5fwRnFysUA2LrB2I8QsoPfuXznxniN9MtDHSottTpG4AFotMkeL3KW1KNohg/exec';
+  let listOpen = false;
+
+  // Enter 키
+  document.getElementById('plateBack').addEventListener('keydown', e => {
+    if (e.key === 'Enter') registerPlate();
+  });
+
+  async function registerPlate() {
+    const front = document.getElementById('plateFront').value.trim().toUpperCase();
+    const back = document.getElementById('plateBack').value.trim();
+    const btn = document.getElementById('submitBtn');
+
+    if (!front) { showToast('앞번호를 입력해 주세요.', false); document.getElementById('plateFront').focus(); return; }
+    if (!back) { showToast('뒷번호를 입력해 주세요.', false); document.getElementById('plateBack').focus(); return; }
+
+    const plate = front + ' ' + back;
+    btn.disabled = true;
+    btn.textContent = '등록 중…';
+
+    try {
+      const res = await fetch(API, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'add', plate })
+      });
+      const data = await res.json();
+      if (data.success) {
+        // 입력 비활성화
+        document.getElementById('plateFront').disabled = true;
+        document.getElementById('plateBack').disabled = true;
+        btn.style.display = 'none';
+
+        // 완료 배너 + 목록 버튼 표시
+        document.getElementById('doneBanner').classList.add('show');
+        document.getElementById('listBtn').classList.add('show');
+
+        showToast(`${plate} 등록 완료!`, true);
+      } else {
+        showToast('등록 중 오류가 발생했습니다.', false);
+        btn.disabled = false;
+        btn.textContent = '등록하기';
+      }
+    } catch(e) {
+      showToast('네트워크 오류. 다시 시도해 주세요.', false);
+      btn.disabled = false;
+      btn.textContent = '등록하기';
+    }
+  }
+
+  async function toggleList() {
+    listOpen = !listOpen;
+    const panel = document.getElementById('listPanel');
+    const btn = document.getElementById('listBtn');
+
+    if (listOpen) {
+      panel.classList.add('show');
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg> 목록 닫기`;
+      await loadList();
+    } else {
+      panel.classList.remove('show');
+      btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> 주차등록 완료`;
+    }
+  }
+
+  async function loadList() {
+    const body = document.getElementById('listBody');
+    body.innerHTML = '<div class="list-loading">불러오는 중...</div>';
+    try {
+      const res = await fetch(API + '?action=get');
+      const plates = await res.json();
+      document.getElementById('listCount').textContent = plates.length;
+      if (plates.length === 0) {
+        body.innerHTML = '<div class="list-empty">등록된 차량이 없습니다.</div>';
+        return;
+      }
+      body.innerHTML = '';
+      [...plates].reverse().forEach(p => {
+        const el = document.createElement('div');
+        el.className = 'plate-list-item';
+        el.style.animation = 'slideIn 0.25s ease';
+        el.innerHTML = `<span class="pnum">${p.plate}</span><span class="ptime">${p.time} 등록</span>`;
+        body.appendChild(el);
+      });
+    } catch {
+      body.innerHTML = '<div class="list-empty">목록을 불러올 수 없습니다.</div>';
+    }
+  }
+
+  function showToast(msg, success = true) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toastDot').style.background = success ? '#4CAF50' : '#E3000F';
+    document.getElementById('toastMsg').textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2800);
+  }
+</script>
+</body>
+</html>
