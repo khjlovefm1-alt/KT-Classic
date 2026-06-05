@@ -238,6 +238,10 @@ body { font-family: 'Noto Sans KR', sans-serif; background: var(--cream); color:
 .list-btn:hover { border-color: var(--gold); color: var(--gold); }
 .done-banner { display: none; margin-top: 12px; background: #f0faf0; border: 1px solid #b2dfb2; border-radius: 9px; padding: 11px 14px; font-size: 12px; color: #2e7d32; align-items: center; gap: 8px; }
 .done-banner.show { display: flex; }
+.again-btn { display: none; width: 100%; margin-top: 10px; height: 44px; background: var(--cream); color: var(--red); border: 1px solid var(--red); border-radius: 9px; font-family: 'Noto Sans KR', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em; }
+.again-btn.show { display: block; }
+.again-btn:hover { background: #fff0f0; }
+.again-btn:active { transform: scale(0.98); }
 .list-panel { display: none; margin-top: 18px; border-top: 1px solid var(--border); padding-top: 16px; }
 .list-panel.show { display: block; }
 .list-panel-title { font-size: 9px; font-weight: 500; letter-spacing: 0.14em; color: var(--light); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
@@ -428,6 +432,7 @@ footer { background: var(--dark); border-top: 1px solid rgba(184,151,58,0.15); p
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
         차량번호가 등록되었습니다. 감사합니다 🎻
       </div>
+      <button class="again-btn" id="againBtn" onclick="resetForm()">+ 다른 차량 등록하기</button>
       <div class="list-panel" id="listPanel">
         <div class="list-panel-title">
           등록된 차량 목록
@@ -476,6 +481,7 @@ async function registerPlate() {
       document.getElementById('plateBack').disabled  = true;
       btn.style.display = 'none';
       document.getElementById('doneBanner').classList.add('show');
+      document.getElementById('againBtn').classList.add('show');
       document.getElementById('listBtn').classList.add('show');
       showToast(plate + ' 등록 완료!', true);
     } else {
@@ -486,6 +492,18 @@ async function registerPlate() {
     showToast('네트워크 오류. 다시 시도해 주세요.', false);
     btn.disabled = false; btn.textContent = '등록하기';
   }
+}
+
+function resetForm() {
+  const front = document.getElementById('plateFront');
+  const back  = document.getElementById('plateBack');
+  front.disabled = false; back.disabled = false;
+  front.value = ''; back.value = '';
+  const btn = document.getElementById('submitBtn');
+  btn.style.display = ''; btn.disabled = false; btn.textContent = '등록하기';
+  document.getElementById('doneBanner').classList.remove('show');
+  document.getElementById('againBtn').classList.remove('show');
+  front.focus();
 }
 
 async function toggleList() {
