@@ -148,10 +148,32 @@
   const API = 'https://script.google.com/macros/s/AKfycby_XxZeU875tQXioiMgLJUSY9o69ZdDUzAlifNOad0yjRvtfmvpdWbjGY6T84fw83ZT/exec';
   let plates = [];
 
+  // 관리자 비밀번호: 코드에 저장하지 않고 접속할 때 입력받습니다.
+  let adminKey = '';
+  try { adminKey = sessionStorage.getItem('ktc_admin_key') || ''; } catch {}
+
+  function askKey() {
+    adminKey = prompt('관리자 비밀번호를 입력하세요.') || '';
+    try { sessionStorage.setItem('ktc_admin_key', adminKey); } catch {}
+  }
+
+  async function callAdmin(body) {
+    if (!adminKey) askKey();
+    const res = await fetch(API, { method: 'POST', body: JSON.stringify({ ...body, key: adminKey }) });
+    const data = await res.json();
+    if (data && data.error === 'unauthorized') {
+      adminKey = '';
+      try { sessionStorage.removeItem('ktc_admin_key'); } catch {}
+      alert('비밀번호가 맞지 않습니다. 새로고침 후 다시 입력해 주세요.');
+      throw new Error('unauthorized');
+    }
+    return data;
+  }
+
   async function loadPlates() {
     try {
-      const res = await fetch(API + '?action=get');
-      plates = await res.json();
+      const data = await callAdmin({ action: 'list' });
+      plates = Array.isArray(data) ? data : [];
     } catch { plates = []; }
     renderTable();
   }
@@ -159,7 +181,7 @@
   async function deletePlate(id) {
     if (!confirm('이 차량을 목록에서 삭제할까요?')) return;
     try {
-      await fetch(API, { method: 'POST', body: JSON.stringify({ action: 'delete', id }) });
+      await callAdmin({ action: 'delete', id });
       await loadPlates();
       showToast('삭제되었습니다.', false);
     } catch {
